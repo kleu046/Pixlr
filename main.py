@@ -287,16 +287,16 @@ def main():
                 action_complete_message = 'Your work is loaded!'
             except FileNotFoundError:
                 action_complete_message = 'Nothing saved in slot {active_save_slot}'
-
+            except UnboundLocalError:
+                action_complete_message = 'Save slot is empty!'
             try:
                 ui.reset_drawing_board(tile_colors = saved_tile_colors)
+                if ui.game_config.drawing_board_size != int(len(saved_tile_colors)**0.5):
+                    action_complete_message = f'Incorrect grid size! Change grid size to {int(len(saved_tile_colors)**0.5)}'
             except UnboundLocalError:
                 action_complete_message = 'Save slot is empty!'
             except IndexError:
                 action_complete_message = f'Incorrect grid size! Change grid size to {int(len(saved_tile_colors)**0.5)}'
-            finally:
-                if ui.game_config.drawing_board_size != int(len(saved_tile_colors)**0.5):
-                    action_complete_message = f'Incorrect grid size! Change grid size to {int(len(saved_tile_colors)**0.5)}'
 
             loading_work = False
 
